@@ -2,6 +2,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:kalakaar_admin/firebase_options.dart';
+import 'package:kalakaar_admin/home/login/stream_page.dart';
 import 'package:kalakaar_admin/home/side_bar/side_bar.dart';
 import 'package:kalakaar_admin/home/splash/splash.dart';
 
@@ -26,7 +27,7 @@ class MyApp extends StatelessWidget {
      width=MediaQuery.of(context).size.width;
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: SideBarXScreen()
+      home: StreamPage()
     );
   }
 }

@@ -8,11 +8,11 @@ Future<void> fetchData() async {
 
     QuerySnapshot snapshot = await FirebaseFirestore.instance.collection('users').get();
     data = snapshot.docs.map((doc) => doc.data() as Map<String, dynamic>).toList();
-
+    print(snapshot.docs);
     print(data);
   }catch(e){
 
-    print(e);
+    print("error : $e");
     data = [];
 
   }

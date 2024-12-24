@@ -14,6 +14,12 @@ class TableScreen extends StatefulWidget {
 class _TableScreenState extends State<TableScreen> {
 
   @override
+  void initState(){
+    super.initState();
+    fetchData();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ClrConstant.whiteColor,

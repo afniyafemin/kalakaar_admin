@@ -1,12 +1,14 @@
 
-
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:kalakaar_admin/services/fetch_admin_data.dart';
 import 'package:sidebarx/sidebarx.dart';
-
 import '../../constants/color_constant.dart';
 import '../../main.dart';
 import '../screens/users.dart';
+
 
 class SideBarXScreen extends StatefulWidget {
   const SideBarXScreen({Key? key}) : super(key: key);
@@ -38,6 +40,22 @@ class _SideBarXScreenState extends State<SideBarXScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: FutureBuilder<String?>(
+          future: fetchAdminData(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Center(child: CircularProgressIndicator(),);
+            }else if (snapshot.hasError) {
+              return Center(child: Text("Error : ${snapshot.hasError}"),);
+            }  else if (snapshot.hasData) {
+              return Text("${snapshot.hasData}");
+            }else{
+              return Center(child: Text("no admin data found"));
+            }
+          },
+        )
+        ),
       body: Row(
         children: [
           SidebarX(

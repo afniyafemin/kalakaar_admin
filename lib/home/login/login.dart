@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:kalakaar_admin/services/sign_in.dart';
 import '../../constants/color_constant.dart';
 import '../../main.dart';
 import '../side_bar/side_bar.dart';
@@ -14,6 +15,10 @@ class Login extends StatefulWidget {
 }
 bool pass=true;
 class _LoginState extends State<Login> {
+
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,9 +39,11 @@ class _LoginState extends State<Login> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                  TextFormField(
+                   controller: emailController,
                    decoration: InputDecoration(
                      fillColor: ClrConstant.primaryColor,
-                     label: Text("Username",
+                     filled: true,
+                     label: Text("email",
                        style: TextStyle(
                          color: ClrConstant.whiteColor,
                          fontWeight: FontWeight.w800,
@@ -61,12 +68,12 @@ class _LoginState extends State<Login> {
                    cursorColor: ClrConstant.primaryColor,
                  ),
                  TextFormField(
+                   controller: passwordController,
                    obscureText: pass?true:false,
                    obscuringCharacter: "*",
-                   maxLength: 8,
                    decoration: InputDecoration(
                      focusColor: ClrConstant.whiteColor,
-                     counterText: " ",
+                     filled: true,
                      fillColor: ClrConstant.primaryColor,
                      label: Text("Password",
                        style: TextStyle(
@@ -102,12 +109,10 @@ class _LoginState extends State<Login> {
                 ],
               ),
             ),
-            InkWell(
-              onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) =>SideBarXScreen(),));
-                setState(() {
-
-                });
+            GestureDetector(
+              onTap: () async {
+                  await signin(emailController.text , passwordController.text);
+                  // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => SideBarXScreen(),));
               },
               child: Container(
                 height: height*0.075,
