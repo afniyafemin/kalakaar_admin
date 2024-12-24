@@ -1,0 +1,82 @@
+{
+  "project_info": {
+    "project_number": "423168411417",
+    "project_id": "kalakaar-e2fa1",
+    "storage_bucket": "kalakaar-e2fa1.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:423168411417:android:3a4047f60b35ccceede788",
+        "android_client_info": {
+          "package_name": "com.example.kala"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "423168411417-mnikc60nnqhor0mv2vff4pimc9vb0j6l.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyANLm2tc2qdniBzYEpLNzNR-YLx0yWe1V0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "423168411417-mnikc60nnqhor0mv2vff4pimc9vb0j6l.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "423168411417-uk926p5l88c6ah2pv27b2udi7109cu6k.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.kala"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:423168411417:android:ae478d51574891f1ede788",
+        "android_client_info": {
+          "package_name": "com.example.kalakaar_admin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "423168411417-mnikc60nnqhor0mv2vff4pimc9vb0j6l.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyANLm2tc2qdniBzYEpLNzNR-YLx0yWe1V0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "423168411417-mnikc60nnqhor0mv2vff4pimc9vb0j6l.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "423168411417-uk926p5l88c6ah2pv27b2udi7109cu6k.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.kala"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
