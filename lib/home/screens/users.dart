@@ -4,7 +4,7 @@ import 'package:kalakaar_admin/home/screens/table_screen.dart';
 import 'package:kalakaar_admin/services/fetch_data.dart';
 import '../../constants/color_constant.dart';
 import '../../main.dart';
-
+import '../../services/fetch_admin_data.dart';
 
 class Users extends StatefulWidget {
   const Users({super.key});
@@ -12,115 +12,128 @@ class Users extends StatefulWidget {
   @override
   State<Users> createState() => _UsersState();
 }
-List  category =["Dancing","Instrumental Music","Malabar Arts","Martial and Ritual Arts","Western""Dancing"];
 
 class _UsersState extends State<Users> {
-
   var selected_category;
   var selected_index;
 
-  List <Map<String , String>> categories =[
+  List<Map<String, String>> categories = [
     {
-      "name" : "dancing",
-      "img" : ImgConstant.dancing
+      "name": "Dancing",
+      "img": ImgConstant.dancing
     },
     {
-      "name" : "Instrumental music",
-      "img" : ImgConstant.instrumental_music
+      "name": "Instrumental Music",
+      "img": ImgConstant.instrumental_music
     },
     {
-      "name" : "Malabar Arts",
-      "img" : ImgConstant.malabar
+      "name": "Malabar Arts",
+      "img": ImgConstant.malabar
     },
     {
-      "name" : "Ritual Arts",
-      "img" : ImgConstant.martial
+      "name": "Ritual Arts",
+      "img": ImgConstant.martial
     },
     {
-      "name" : "western",
-      "img" : ImgConstant.western
+      "name": "Western",
+      "img": ImgConstant.western
     },
-
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: ClrConstant.primaryColor,
+        title: Text("Users",
+          style: TextStyle(
+              color: ClrConstant.whiteColor,
+              fontWeight: FontWeight.w800
+          ),),
+        centerTitle: true,
+      ),
+      resizeToAvoidBottomInset: false,
       backgroundColor: ClrConstant.whiteColor,
       body: Padding(
-        padding: EdgeInsets.all(width*0.01),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            //search bar
-            Center(
-              child: Container(
-                height: height*0.06,
-                width: width*0.8,
-                child: TextFormField(
-                  cursorHeight: width*0.015,
-                  cursorColor: ClrConstant.primaryColor,
-                  decoration: InputDecoration(
-                    label: Text("Search here",
-                      style: TextStyle(
-                        fontWeight: FontWeight.w200,
-                          color: ClrConstant.blackColor.withOpacity(0.5),
-                          fontSize: width*0.0075
+        padding: EdgeInsets.symmetric(horizontal: width * 0.05, vertical: height * 0.02),
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Search bar
+              Padding(
+                padding: EdgeInsets.symmetric(vertical: height * 0.01),
+                child: Center(
+                  child: Container(
+                    height: height * 0.06,
+                    width: width * 0.9,
+                    child: TextFormField(
+                      cursorHeight: width * 0.05,
+                      cursorColor: ClrConstant.primaryColor,
+                      decoration: InputDecoration(
+                        fillColor: ClrConstant.primaryColor.withOpacity(0.5),
+                        filled: true,
+                        labelText: "Search here",
+                        labelStyle: TextStyle(
+                          fontWeight: FontWeight.w400,
+                          color: ClrConstant.blackColor,
+                          fontSize: width * 0.04,
+                        ),
+                        prefixIcon: Icon(Icons.search, size: width * 0.05),
+                        //contentPadding: EdgeInsets.symmetric(vertical: 10),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(width * 0.03),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(width * 0.03),
+                          borderSide: BorderSide(color: ClrConstant.blackColor),
+                        ),
                       ),
-
-                    ),
-                    prefixIcon: Icon(Icons.search,size: width*0.015,),
-                    contentPadding: EdgeInsets.symmetric(vertical: 10),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(width*0.03),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(width*0.03),
-                        borderSide: BorderSide(
-                            color: ClrConstant.blackColor
-                        )
                     ),
                   ),
                 ),
               ),
-            ),
-            SizedBox(height: height*0.01,),
-            Container(
-              height: height*0.875,
-              width: width*1,
-              child: ListView.separated(
-                itemBuilder: (BuildContext context, int index) {
-                  return GestureDetector(
-                    onTap: () {
-                      selected_index=index;
-                      selected_category = categories[selected_index]["name"];
-                      fetchData();
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => TableScreen(),));
-                      setState(() {
-
-                      });
-                    },
-                    child: Container(
-                      height: height*0.1,
-                      child: ListTile(
-                        title: Text(categories[index]["name"]!),
-                        leading: CircleAvatar(
-                          radius: width*0.03,
-                          backgroundImage: AssetImage(categories[index]["img"]!),
+              // Categories List
+              Container(
+                height: height * 0.75, // Adjust height as needed
+                width: width * 1,
+                child: ListView.separated(
+                  itemBuilder: (BuildContext context, int index) {
+                    return GestureDetector(
+                      onTap: () {
+                        selected_index = index;
+                        selected_category = categories[selected_index]["name"];
+                        fetchData();
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => TableScreen()),
+                        );
+                      },
+                      child: Container(
+                        height: height * 0.08,
+                        child: Center(
+                          child: ListTile(
+                            title: Text(
+                              categories[index]["name"]!,
+                              style: TextStyle(fontSize: width * 0.045), // Adjust font size
+                            ),
+                            leading: CircleAvatar(
+                              radius: width * 0.075, // Adjust avatar size
+                              backgroundImage: AssetImage(categories[index]["img"]!),
+                            ),
+                          ),
                         ),
                       ),
-                    ),
-                  );
-                },
-                separatorBuilder: (context, index) {
-                  return Divider(
-                    color: ClrConstant.primaryColor,
-                  );
-                },
-                itemCount: categories.length,
+                    );
+                  },
+                  separatorBuilder: (context, index) {
+                    return Divider(color: ClrConstant.primaryColor);
+                  },
+                  itemCount: categories.length,
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

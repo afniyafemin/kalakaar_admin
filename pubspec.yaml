@@ -39,7 +39,9 @@ dependencies:
   flutter_svg: ^2.0.10+1
   sidebarx: ^0.17.1
   cloud_firestore: ^5.6.0
+  curved_navigation_bar: ^1.0.6
   firebase_auth: ^5.3.4
+
 
 
 dev_dependencies:
