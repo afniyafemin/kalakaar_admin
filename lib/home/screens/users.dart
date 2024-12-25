@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kalakaar_admin/constants/image_constant.dart';
-import 'package:kalakaar_admin/home/screens/table_screen.dart';
+import 'package:kalakaar_admin/home/bottom_navigation_bar/custom_nav_bar.dart';
+import 'package:kalakaar_admin/home/screens/users_list.dart';
 import 'package:kalakaar_admin/services/fetch_data.dart';
 import '../../constants/color_constant.dart';
 import '../../main.dart';
@@ -52,7 +53,6 @@ class _UsersState extends State<Users> {
           ),),
         centerTitle: true,
       ),
-      resizeToAvoidBottomInset: false,
       backgroundColor: ClrConstant.whiteColor,
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: width * 0.05, vertical: height * 0.02),
@@ -60,7 +60,6 @@ class _UsersState extends State<Users> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Search bar
               Padding(
                 padding: EdgeInsets.symmetric(vertical: height * 0.01),
                 child: Center(
@@ -106,7 +105,7 @@ class _UsersState extends State<Users> {
                         fetchData();
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => TableScreen()),
+                          MaterialPageRoute(builder: (context) => UsersList()),
                         );
                       },
                       child: Container(
@@ -136,6 +135,7 @@ class _UsersState extends State<Users> {
           ),
         ),
       ),
+      resizeToAvoidBottomInset: false,
     );
   }
 }

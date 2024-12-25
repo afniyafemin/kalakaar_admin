@@ -16,15 +16,15 @@ class _EventsPageState extends State<EventsPage> {
   Widget build(BuildContext context) {
 
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: ClrConstant.primaryColor,
-        title: Text("Events",
-        style: TextStyle(
-          color: ClrConstant.whiteColor,
-          fontWeight: FontWeight.w800
-        ),),
-        centerTitle: true,
-      ),
+      // appBar: AppBar(
+      //   backgroundColor: ClrConstant.primaryColor,
+      //   title: Text("Events",
+      //   style: TextStyle(
+      //     color: ClrConstant.whiteColor,
+      //     fontWeight: FontWeight.w800
+      //   ),),
+      //   centerTitle: true,
+      // ),
       body: Column(
         children: [
           Stack(

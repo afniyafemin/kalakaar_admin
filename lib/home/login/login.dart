@@ -1,9 +1,9 @@
 
 import 'package:flutter/material.dart';
+import 'package:kalakaar_admin/home/bottom_navigation_bar/custom_nav_bar.dart';
 import 'package:kalakaar_admin/services/sign_in.dart';
 import '../../constants/color_constant.dart';
 import '../../main.dart';
-import '../side_bar/side_bar.dart';
 
 
 
@@ -115,7 +115,7 @@ class _LoginState extends State<Login> {
                     if (emailController.text == "kalakaaradmin@gmail.com" && passwordController.text == "adminkalakaaradmin") {
                       await signin(emailController.text, passwordController.text);
                       // Navigate to the admin dashboard or sidebar
-                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => SideBarXScreen()));
+                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => CustomNavBar()));
                     } else {
                       // Show error message for incorrect credentials
                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Invalid admin credentials")));

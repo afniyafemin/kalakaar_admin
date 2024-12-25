@@ -3,14 +3,14 @@ import 'package:kalakaar_admin/constants/color_constant.dart';
 import '../../main.dart';
 import '../../services/fetch_data.dart';
 
-class TableScreen extends StatefulWidget {
-  const TableScreen({super.key});
+class UsersList extends StatefulWidget {
+  const UsersList({super.key});
 
   @override
-  State<TableScreen> createState() => _TableScreenState();
+  State<UsersList> createState() => _UsersListState();
 }
 
-class _TableScreenState extends State<TableScreen> {
+class _UsersListState extends State<UsersList> {
   List<Map<String, dynamic>> data = []; // Initialize data
   bool isLoading = true; // Loading state
 
@@ -83,11 +83,15 @@ class _TableScreenState extends State<TableScreen> {
                             );
                           },
                           child: ListTile(
-                            leading: CircleAvatar(
-                              radius: width * 0.05, // Adjust avatar size
-                              backgroundColor: ClrConstant.primaryColor,
-                              child: Text(data[index]['sl no'].toString(),
-                                  style: TextStyle(color: Colors.white)),
+                            leading: GestureDetector(
+                              onTap: () {
+                                //nav to event calendar
+                              },
+                              child: CircleAvatar(
+                                radius: width * 0.05, // Adjust avatar size
+                                backgroundColor: ClrConstant.primaryColor,
+                                child: Icon(Icons.event),
+                              ),
                             ),
                             title: Text(data[index]['username'].toString(),
                                 style: TextStyle(fontSize: width * 0.035)),
@@ -103,7 +107,6 @@ class _TableScreenState extends State<TableScreen> {
                             trailing: Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [
-
                                 Row(
                                   children: List.generate(
                                       data[index]['Ratings'], (starIndex) {

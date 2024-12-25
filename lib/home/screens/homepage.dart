@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kalakaar_admin/constants/image_constant.dart';
-import 'package:kalakaar_admin/home/screens/table_screen.dart';
+import 'package:kalakaar_admin/home/screens/users_list.dart';
 import 'package:kalakaar_admin/home/screens/events.dart';
 import 'package:kalakaar_admin/home/screens/users.dart';
 import 'package:kalakaar_admin/message/message_page.dart';
@@ -55,7 +55,7 @@ class _HomepageState extends State<Homepage> {
             } else if (snapshot.hasError) {
               return Center(child: Text("Error: ${snapshot.error}"));
             } else if (snapshot.hasData) {
-              return Text("Welcome, Admin");
+              return Text("Welcome");
             } else {
               return Text("No admin data found");
             }
@@ -66,25 +66,26 @@ class _HomepageState extends State<Homepage> {
             icon: Stack(
               alignment: Alignment.center,
               children: [
-                Icon(Icons.message),
+                Icon(Icons.message,size: width*0.07,),
                 if (eventCount > 0) // Show badge if there are unread messages
                   Positioned(
                     right: 0,
                     top: 0,
                     child: Container(
+                      height: height*0.02,
+                      width: width*0.04,
                       padding: EdgeInsets.all(2),
                       decoration: BoxDecoration(
                         color: Colors.red,
                         borderRadius: BorderRadius.circular(10),
                       ),
-                      constraints: BoxConstraints(
-                        minWidth: 16,
-                        minHeight: 16,
-                      ),
-                      child: Text(
-                        eventCount.toString(),
-                        style: TextStyle(color: Colors.white, fontSize: 10),
-                        textAlign: TextAlign.center,
+
+                      child: Center(
+                        child: Text(
+                          eventCount.toString(),
+                          style: TextStyle(color: Colors.white, fontSize: 10),
+                          textAlign: TextAlign.center,
+                        ),
                       ),
                     ),
                   ),
@@ -105,24 +106,16 @@ class _HomepageState extends State<Homepage> {
               padding: const EdgeInsets.all(8.0),
               child: Column(
                   children: [
-                    // Overview Section
                     Container(
+                      height: height*0.2,
                       decoration: BoxDecoration(
-                        // boxShadow: [
-                        //   BoxShadow(
-                        //     color: ClrConstant.primaryColor,
-                        //     offset: Offset(0, 3),
-                        //     blurRadius: 1,
-                        //     spreadRadius: 2
-                        //   )
-                        // ],
                         border:
                             Border.all(color: ClrConstant.primaryColor, width: 3),
-                        borderRadius: BorderRadius.circular(8),
+                        borderRadius: BorderRadius.circular(width*0.03),
                         color: ClrConstant.primaryColor.withOpacity(0.8),
                       ),
-                      padding: EdgeInsets.all(width * 0.05),
                       child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           Text(
                             "Overview",
@@ -132,15 +125,18 @@ class _HomepageState extends State<Homepage> {
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                          SizedBox(height: height * 0.02),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
                               Column(
                                 children: [
                                   Text("Users",
-                                      style: TextStyle(fontSize: width * 0.04)),
-                                  SizedBox(height: height * 0.01),
+                                      style: TextStyle(
+                                          fontSize: width * 0.04,
+                                        fontWeight: FontWeight.w900,
+                                        color: ClrConstant.blackColor.withOpacity(0.25)
+                                      )
+                                  ),
                                   Text(userCount.toString(),
                                       style: TextStyle(
                                           fontSize: width * 0.05,
@@ -150,8 +146,12 @@ class _HomepageState extends State<Homepage> {
                               Column(
                                 children: [
                                   Text("Events",
-                                      style: TextStyle(fontSize: width * 0.04)),
-                                  SizedBox(height: height * 0.01),
+                                      style: TextStyle(
+                                          fontSize: width * 0.04,
+                                          fontWeight: FontWeight.w900,
+                                          color: ClrConstant.blackColor.withOpacity(0.25)
+                                      )
+                                  ),
                                   Text(eventCount.toString(),
                                       style: TextStyle(
                                           fontSize: width * 0.05,
@@ -163,10 +163,7 @@ class _HomepageState extends State<Homepage> {
                         ],
                       ),
                     ),
-                    SizedBox(
-                        height: height *
-                            0.02), // Space between overview and navigation
-                    // Navigation Section
+                    SizedBox(height: height * 0.02),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
@@ -203,10 +200,7 @@ class _HomepageState extends State<Homepage> {
                         ),
                       ],
                     ),
-                    SizedBox(
-                        height: height *
-                            0.02), // Space between navigation and notifications
-                    // Notification Section
+                    SizedBox(height: height * 0.02), // Space between navigation and notifications
                     Container(
                       padding: EdgeInsets.all(width * 0.05),
                       decoration: BoxDecoration(
@@ -226,21 +220,22 @@ class _HomepageState extends State<Homepage> {
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                          SizedBox(height: height * 0.02),
-                          // Example notifications
-                          ListTile(
-                            leading: Icon(Icons.person_add,
-                                color: ClrConstant.primaryColor),
-                            title: Text("New User: John Doe"),
-                            subtitle: Text("Joined on 2023-10-01"),
-                          ),
-                          ListTile(
-                            leading: Icon(Icons.event,
-                                color: ClrConstant.primaryColor),
-                            title: Text("Upcoming Event: Dance Festival"),
-                            subtitle: Text("Date: 2023-10-15"),
-                          ),
-                          // Add more notifications as needed
+                          SingleChildScrollView(
+                            child: Container(
+                              height: height*0.4,
+                              child: ListView.builder(
+                                  itemBuilder: (context, index) {
+                                    return ListTile(
+                                      leading: Icon(Icons.person_add,
+                                          color: ClrConstant.primaryColor),
+                                      title: Text("New User: John Doe"),
+                                      subtitle: Text("Joined on 2023-10-01"),
+                                    );
+                                  },
+                                itemCount: 2,
+                              ),
+                            ),
+                          )
                         ],
                       ),
                     ),

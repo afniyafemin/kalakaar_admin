@@ -3,11 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:kalakaar_admin/home/screens/events.dart';
 import 'package:kalakaar_admin/home/screens/homepage.dart';
 import 'package:kalakaar_admin/home/screens/report_page.dart';
-
 import '../../constants/color_constant.dart';
 import '../../main.dart';
-import '../../services/fetch_admin_data.dart';
 import '../screens/users.dart';
+
 
 class CustomNavBar extends StatefulWidget {
   const CustomNavBar({super.key});
@@ -15,10 +14,12 @@ class CustomNavBar extends StatefulWidget {
   @override
   State<CustomNavBar> createState() => _CustomNavBarState();
 }
-
 class _CustomNavBarState extends State<CustomNavBar> {
 
   int currentIndex=0;
+   // bool isNavBarVisible = true;
+  final FocusNode focusNode = FocusNode();
+
   List<Widget> pages = [
     Homepage(),
     Users(),
@@ -26,27 +27,9 @@ class _CustomNavBarState extends State<CustomNavBar> {
     ReportPage()
   ];
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   backgroundColor: ClrConstant.primaryColor.withOpacity(0.5),
-      //     // title: FutureBuilder<String?>(
-      //     //   future: fetchAdminData(),
-      //     //   builder: (context, snapshot) {
-      //     //     if (snapshot.connectionState == ConnectionState.waiting) {
-      //     //       return Center(child: CircularProgressIndicator(),);
-      //     //     }else if (snapshot.hasError) {
-      //     //       return Center(child: Text("Error : ${snapshot.hasError}"),);
-      //     //     }  else if (snapshot.hasData) {
-      //     //       return Text("${snapshot.hasData}");
-      //     //     }else{
-      //     //       return Center(child: Text("no admin data found"));
-      //     //     }
-      //     //   },
-      //     // )
-      // ),
       backgroundColor: ClrConstant.whiteColor,
       body: pages[currentIndex],
       bottomNavigationBar: CurvedNavigationBar(
