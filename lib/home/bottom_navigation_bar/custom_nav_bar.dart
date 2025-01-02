@@ -18,9 +18,9 @@ class _CustomNavBarState extends State<CustomNavBar> {
 
   int currentIndex=0;
    // bool isNavBarVisible = true;
-  final FocusNode focusNode = FocusNode();
+  //final FocusNode focusNode = FocusNode();
 
-  List<Widget> pages = [
+  List pages = [
     Homepage(),
     Users(),
     EventsPage(),
@@ -30,7 +30,6 @@ class _CustomNavBarState extends State<CustomNavBar> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ClrConstant.whiteColor,
       body: pages[currentIndex],
       bottomNavigationBar: CurvedNavigationBar(
           color: ClrConstant.primaryColor,
@@ -40,14 +39,17 @@ class _CustomNavBarState extends State<CustomNavBar> {
             Icon(Icons.event,),
             Icon(Icons.report,),
       ],
-        onTap: (index) {
+        onTap: (value) {
+          currentIndex = value;
           setState(() {
-            currentIndex = index;
           });
         },
         height: height * 0.075,
         backgroundColor: ClrConstant.whiteColor,
+        animationDuration: Duration(milliseconds: 300),
+
       ),
+      backgroundColor: ClrConstant.whiteColor,
       resizeToAvoidBottomInset: false,
     );
   }

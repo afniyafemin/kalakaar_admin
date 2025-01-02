@@ -21,6 +21,7 @@ class _HomepageState extends State<Homepage> {
   int eventCount = 0; // Placeholder for event count
   bool isLoading = true; // Loading state
 
+
   @override
   void initState() {
     super.initState();

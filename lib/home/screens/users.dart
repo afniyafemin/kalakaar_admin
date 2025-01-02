@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:kalakaar_admin/constants/image_constant.dart';
 import 'package:kalakaar_admin/home/bottom_navigation_bar/custom_nav_bar.dart';
 import 'package:kalakaar_admin/home/screens/users_list.dart';
+import 'package:kalakaar_admin/home/search/search_functionality.dart';
 import 'package:kalakaar_admin/services/fetch_data.dart';
 import '../../constants/color_constant.dart';
 import '../../main.dart';
@@ -67,6 +68,9 @@ class _UsersState extends State<Users> {
                     height: height * 0.06,
                     width: width * 0.9,
                     child: TextFormField(
+                      onTap: (){
+                        showSearch(context: context, delegate: CustomSearchDelegate());
+                      },
                       cursorHeight: width * 0.05,
                       cursorColor: ClrConstant.primaryColor,
                       decoration: InputDecoration(
