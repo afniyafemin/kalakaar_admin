@@ -15,32 +15,20 @@ class Users extends StatefulWidget {
   State<Users> createState() => _UsersState();
 }
 
+List<Map> category = [
+  {"img": ImgConstant.dancing, "txt": "Dancing"},
+  {"img": ImgConstant.instrumental_music, "txt": "Instrumental Music"},
+  {"img": ImgConstant.malabar, "txt": "Malabar Arts"},
+  {"img": ImgConstant.martial, "txt": "Martial and Ritual Arts"},
+  {"img": ImgConstant.western, "txt": "Western"},
+];
+String category_='';
+
 class _UsersState extends State<Users> {
   var selected_category;
   var selected_index;
 
-  List<Map<String, String>> categories = [
-    {
-      "name": "Dancing",
-      "img": ImgConstant.dancing
-    },
-    {
-      "name": "Instrumental Music",
-      "img": ImgConstant.instrumental_music
-    },
-    {
-      "name": "Malabar Arts",
-      "img": ImgConstant.malabar
-    },
-    {
-      "name": "Ritual Arts",
-      "img": ImgConstant.martial
-    },
-    {
-      "name": "Western",
-      "img": ImgConstant.western
-    },
-  ];
+
 
   @override
   Widget build(BuildContext context) {
@@ -104,8 +92,7 @@ class _UsersState extends State<Users> {
                   itemBuilder: (BuildContext context, int index) {
                     return GestureDetector(
                       onTap: () {
-                        selected_index = index;
-                        selected_category = categories[selected_index]["name"];
+                        category_=category[index]["txt"];
                         fetchData();
                         Navigator.push(
                           context,
@@ -116,13 +103,12 @@ class _UsersState extends State<Users> {
                         height: height * 0.08,
                         child: Center(
                           child: ListTile(
-                            title: Text(
-                              categories[index]["name"]!,
+                            title: Text(category[index]["txt"],
                               style: TextStyle(fontSize: width * 0.045), // Adjust font size
                             ),
                             leading: CircleAvatar(
                               radius: width * 0.075, // Adjust avatar size
-                              backgroundImage: AssetImage(categories[index]["img"]!),
+                              backgroundImage: AssetImage(category[index]["img"]),
                             ),
                           ),
                         ),
@@ -132,7 +118,7 @@ class _UsersState extends State<Users> {
                   separatorBuilder: (context, index) {
                     return Divider(color: ClrConstant.primaryColor);
                   },
-                  itemCount: categories.length,
+                  itemCount: category.length,
                 ),
               ),
             ],

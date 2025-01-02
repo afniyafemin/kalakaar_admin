@@ -1,5 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:kalakaar_admin/constants/color_constant.dart';
+import 'package:kalakaar_admin/home/screens/users.dart';
 import '../../main.dart';
 import '../../services/fetch_data.dart';
 
@@ -11,42 +13,35 @@ class UsersList extends StatefulWidget {
 }
 
 class _UsersListState extends State<UsersList> {
-  List<Map<String, dynamic>> data = []; // Initialize data
-  bool isLoading = true; // Loading state
+  // bool isLoading = true; // Loading state
+
+  List<Map<String, dynamic>> users = [];
 
   @override
   void initState() {
     super.initState();
-    fetchData();
+    fetchUsersByCategory(category_); // Fetch users based on the selected category
   }
 
-  Future<void> fetchData() async {
-    // Simulate data fetching
-    await Future.delayed(Duration(seconds: 2)); // Simulate network delay
-    // Replace with your actual data fetching logic
-    setState(() {
-      data = [
-        {
-          'sl no': 1,
-          'username': 'John Doe',
-          'email': 'john@example.com',
-          'location': 'New York',
-          'Ratings': 5,
-          'messages': 10
-        },
-        {
-          'sl no': 2,
-          'username': 'Jane Smith',
-          'email': 'jane@example.com',
-          'location': 'Los Angeles',
-          'Ratings': 4,
-          'messages': 5
-        },
-        // Add more sample data as needed
-      ];
-      isLoading = false; // Set loading to false after fetching data
-    });
+  Future<void> fetchUsersByCategory(String category) async {
+    try {
+      final querySnapshot = await FirebaseFirestore.instance
+          .collection('users')
+          .where('category', isEqualTo: category) // Assuming 'category' is the field in Firestore
+          .get();
+
+      setState(() {
+        users = querySnapshot.docs.map((doc) {
+          Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+          data['id'] = doc.id; // Add the document ID to the data
+          return data;
+        }).toList();
+      });
+    } catch (e) {
+      print('Error fetching users: $e');
+    }
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -55,21 +50,25 @@ class _UsersListState extends State<UsersList> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("User  Table"),
-        backgroundColor: ClrConstant.primaryColor,
-      ),
-      backgroundColor: ClrConstant.whiteColor,
+        title: Text(
+        category_ ?? "Category", // Use null-aware operator
+        style: TextStyle(
+        fontWeight: FontWeight.w600,
+        color: ClrConstant.whiteColor,
+        fontSize: width * 0.03,
+    ),
+    ),
+    centerTitle: true,
+    backgroundColor: ClrConstant.blackColor,),
       body: Padding(
         padding: EdgeInsets.all(width * 0.02), // Add padding around the content
-        child: isLoading
-            ? Center(child: CircularProgressIndicator())
-            : Column(
+        child:  Column(
                 children: [
                   SizedBox(
                       height: height * 0.01), // Space between header and data
                   Expanded(
                     child: ListView.separated(
-                      itemCount: data.length,
+                      itemCount: users.length,
                       itemBuilder: (BuildContext context, int index) {
                         return GestureDetector(
                           onTap: () {
@@ -78,7 +77,7 @@ class _UsersListState extends State<UsersList> {
                               context,
                               MaterialPageRoute(
                                 builder: (context) => UserEventsPage(
-                                    username: data[index]['username']),
+                                    username: users[index]['username']),
                               ),
                             );
                           },
@@ -93,14 +92,14 @@ class _UsersListState extends State<UsersList> {
                                 child: Icon(Icons.event),
                               ),
                             ),
-                            title: Text(data[index]['username'].toString(),
+                            title: Text(users[index]["username"] ?? "Unknown User",
                                 style: TextStyle(fontSize: width * 0.035)),
                             subtitle: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(data[index]['email'].toString(),
+                                Text(users[index]['email']??"N/A",
                                     style: TextStyle(fontSize: width * 0.03)),
-                                Text(data[index]['location'].toString(),
+                                Text(users[index]['city']??"N/A",
                                     style: TextStyle(fontSize: width * 0.03)),
                               ],
                             ),
@@ -108,12 +107,12 @@ class _UsersListState extends State<UsersList> {
                               mainAxisSize: MainAxisSize.min,
                               children: [
                                 Row(
-                                  children: List.generate(
-                                      data[index]['Ratings'], (starIndex) {
+                                  children: (users[index]['Ratings'] != null)
+                                      ? List.generate(users[index]['Ratings'], (starIndex) {
                                     return Icon(Icons.star,
                                         color: Colors.amber,
                                         size: width * 0.04);
-                                  }),
+                                  }): [Text('No Ratings')],
                                 ),
                                 SizedBox(
                                     width: width *
@@ -122,7 +121,7 @@ class _UsersListState extends State<UsersList> {
                                   alignment: Alignment.center,
                                   children: [
                                     Icon(Icons.message, size: width * 0.05),
-                                    if (data[index]['messages'] > 0)
+                                    if (users[index]['messages'] != null && users[index]['messages'] > 0)
                                       Positioned(
                                         right: 0,
                                         top: 0,
@@ -138,7 +137,7 @@ class _UsersListState extends State<UsersList> {
                                             minHeight: 10,
                                           ),
                                           child: Text(
-                                            data[index]['messages'].toString(),
+                                            users[index]['messages']??"N/A",
                                             style: TextStyle(
                                                 color: Colors.white,
                                                 fontSize: 8,
