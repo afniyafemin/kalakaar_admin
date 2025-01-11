@@ -53,13 +53,14 @@ class _UsersListState extends State<UsersList> {
         title: Text(
         category_ ?? "Category", // Use null-aware operator
         style: TextStyle(
+
         fontWeight: FontWeight.w600,
-        color: ClrConstant.whiteColor,
         fontSize: width * 0.03,
     ),
     ),
     centerTitle: true,
-    backgroundColor: ClrConstant.blackColor,),
+    backgroundColor: ClrConstant.primaryColor,
+      ),
       body: Padding(
         padding: EdgeInsets.all(width * 0.02), // Add padding around the content
         child:  Column(
@@ -103,53 +104,7 @@ class _UsersListState extends State<UsersList> {
                                     style: TextStyle(fontSize: width * 0.03)),
                               ],
                             ),
-                            trailing: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Row(
-                                  children: (users[index]['Ratings'] != null)
-                                      ? List.generate(users[index]['Ratings'], (starIndex) {
-                                    return Icon(Icons.star,
-                                        color: Colors.amber,
-                                        size: width * 0.04);
-                                  }): [Text('No Ratings')],
-                                ),
-                                SizedBox(
-                                    width: width *
-                                        0.02),
-                                Stack(
-                                  alignment: Alignment.center,
-                                  children: [
-                                    Icon(Icons.message, size: width * 0.05),
-                                    if (users[index]['messages'] != null && users[index]['messages'] > 0)
-                                      Positioned(
-                                        right: 0,
-                                        top: 0,
-                                        child: Container(
-                                          padding: EdgeInsets.all(2),
-                                          decoration: BoxDecoration(
-                                            color: Colors.red.withOpacity(0.8),
-                                            borderRadius:
-                                            BorderRadius.circular(15),
-                                          ),
-                                          constraints: BoxConstraints(
-                                            minWidth: 10,
-                                            minHeight: 10,
-                                          ),
-                                          child: Text(
-                                            users[index]['messages']??"N/A",
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 8,
-                                                fontWeight: FontWeight.w700),
-                                            textAlign: TextAlign.center,
-                                          ),
-                                        ),
-                                      ),
-                                  ],
-                                ),
-                              ],
-                            ),
+
                           ),
                         );
                       },

@@ -1,67 +1,93 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import '../../constants/color_constant.dart';
 
-class ReportPage extends StatelessWidget {
-  const ReportPage({super.key});
+class ReportPage extends StatefulWidget {
+  @override
+  _ReportPageState createState() => _ReportPageState();
+}
 
+class _ReportPageState extends State<ReportPage> {
   Future<List<Map<String, dynamic>>> fetchReports() async {
     List<Map<String, dynamic>> reports = [];
     try {
       final querySnapshot = await FirebaseFirestore.instance.collection('reports').get();
-
       reports = querySnapshot.docs.map((doc) {
         Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
         data['id'] = doc.id; // Add the document ID to the data
         return data;
       }).toList();
     } catch (e) {
-      print('Error fetching reports : $e');
+      print('Error fetching reports: $e');
     }
     return reports; // Return the list of reports
   }
 
-  Future<String> fetchUsername(String userId) async {
-    String username = "Unknown User";
+  Future<String> fetchUsername(String? userId) async {
+    if (userId == null) return "Unknown User"; // Default if userId is null
+
     try {
       final userDoc = await FirebaseFirestore.instance.collection('users').doc(userId).get();
       if (userDoc.exists) {
-        username = userDoc.data()?['username'] ?? "Unknown User";
+        return userDoc.data()?['username'] ?? "Unknown User"; // Username or default
       }
+      return "Unknown User"; // User not found
     } catch (e) {
       print('Error fetching username: $e');
+      return "Unknown User";
     }
-    return username; // Return the username
   }
 
-  void _showActionDialog(BuildContext context, Map<String, dynamic> report) {
+  Future<void> _removeReport(String reportId) async {
+    try {
+      await FirebaseFirestore.instance.collection('reports').doc(reportId).delete();
+      print("Report $reportId has been removed.");
+    } catch (e) {
+      print("Error removing report: $e");
+    }
+  }
+
+  Future<void> _removeUser(String userId) async {
+    try {
+      await FirebaseFirestore.instance.collection('users').doc(userId).delete();
+      print("User $userId has been removed.");
+    } catch (e) {
+      print("Error removing user: $e");
+    }
+  }
+
+  void _showActionDialog(BuildContext context, Map<String, dynamic> report, String reportedUsername, String reporterUsername) {
     showDialog(
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text("Actions for ${report['reportedUser Id']}"),
-          content: Text("Choose an action:"),
+          title: Text("Actions for Report"),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text("Reported User: $reportedUsername"),
+              Text("By: $reporterUsername"),
+              Text("Reason: ${report['reason'] ?? 'No reason provided'}"),
+            ],
+          ),
           actions: [
             TextButton(
               onPressed: () {
-                // Logic for issuing a warning
-                _issueWarning(report['reportedUser Id']);
-                Navigator.of(context).pop(); // Close the dialog
+                _removeUser(report['reportedUser Id']);
+                Navigator.of(context).pop();
               },
-              child: Text("Warning"),
+              child: Text("Remove User"),
             ),
             TextButton(
               onPressed: () {
-                // Logic for removing the user
-                _removeUser (report['reportedUser Id']);
-                Navigator.of(context).pop(); // Close the dialog
+                _removeReport(report['id']);
+                Navigator.of(context).pop();
               },
-              child: Text("Remove"),
+              child: Text("Dismiss Report"),
             ),
             TextButton(
-              onPressed: () {
-                Navigator.of(context).pop(); // Close the dialog
-              },
+              onPressed: () => Navigator.of(context).pop(),
               child: Text("Cancel"),
             ),
           ],
@@ -70,25 +96,76 @@ class ReportPage extends StatelessWidget {
     );
   }
 
-  Future<void> _issueWarning(String userId) async {
-    // Logic to issue a warning to the user
-    print("Warning issued to user: $userId");
+  void _showReportDialog(String userId) {
+    final TextEditingController reasonController = TextEditingController();
+
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text("Report User"),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextField(
+                controller: reasonController,
+                decoration: InputDecoration(
+                  labelText: "Reason for reporting",
+                  border: OutlineInputBorder(),
+                ),
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: Text("Cancel"),
+            ),
+            TextButton(
+              onPressed: () async {
+                String reason = reasonController.text.trim();
+                if (reason.isNotEmpty) {
+                  await _submitReport(reason, userId);
+                  Navigator.of(context).pop();
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text("Please provide a reason.")),
+                  );
+                }
+              },
+              child: Text("Report"),
+            ),
+          ],
+        );
+      },
+    );
   }
 
-  Future<void> _removeUser (String userId) async {
-    // Logic to remove the user from the system
-    try {
-      await FirebaseFirestore.instance.collection('users').doc(userId).delete();
-      print("User  $userId has been removed.");
-    } catch (e) {
-      print("Error removing user: $e");
+  Future<void> _submitReport(String reason, String reportedUserId) async {
+    final currentUser = FirebaseAuth.instance.currentUser;
+    if (currentUser != null) {
+      try {
+        await FirebaseFirestore.instance.collection('reports').add({
+          'reportedUser Id': reportedUserId,
+          'reporterUser Id': currentUser.uid,
+          'reason': reason,
+          'timestamp': FieldValue.serverTimestamp(),
+        });
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Report submitted successfully.")),
+        );
+      } catch (e) {
+        print('Error submitting report: $e');
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Error submitting report.")),
+        );
+      }
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width; // Get width
-    double height = MediaQuery.of(context).size.height; // Get height
+    double width = MediaQuery.of(context).size.width;
 
     return Scaffold(
       appBar: AppBar(
@@ -106,7 +183,7 @@ class ReportPage extends StatelessWidget {
       body: Padding(
         padding: EdgeInsets.all(width * 0.02),
         child: FutureBuilder<List<Map<String, dynamic>>>(
-          future: fetchReports(), // Fetch reports from Firestore
+          future: fetchReports(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(child: CircularProgressIndicator());
@@ -122,107 +199,74 @@ class ReportPage extends StatelessWidget {
 
             final reports = snapshot.data!;
 
-            return FutureBuilder<List<String>>(
-              future: Future.wait(reports.map((report) => fetchUsername(report['reportedUser Id']))),
-              builder: (context, usernameSnapshot) {
-                if (usernameSnapshot.connectionState == ConnectionState.waiting) {
+            return FutureBuilder<List<Map<String, String>>>(
+              future: Future.wait(reports.map((report) async {
+                final reportedUser = await fetchUsername(report['reportedUser Id']);
+                final reporterUser = await fetchUsername(report['reporterUser Id']);
+                return {
+                  'reportedUsername': reportedUser,
+                  'reporterUsername': reporterUser,
+                };
+              })),
+              builder: (context, userSnapshot) {
+                if (userSnapshot.connectionState == ConnectionState.waiting) {
                   return Center(child: CircularProgressIndicator());
                 }
 
-                if (usernameSnapshot.hasError) {
-                  return Center(child: Text('Error fetching usernames: ${usernameSnapshot.error}'));
+                if (userSnapshot.hasError) {
+                  return Center(child: Text('Error fetching usernames: ${userSnapshot.error}'));
                 }
 
-                final usernames = usernameSnapshot.data!;
+                final userMappings = userSnapshot.data!;
 
-                return ListView.separated(
+                return ListView.builder(
                   itemCount: reports.length,
                   itemBuilder: (context, index) {
-                    return ListTile(
-                      leading: Icon(Icons.report, color: ClrConstant.primaryColor),
-                      title: Text(
-                        "${usernames[index]} got reported",
-                        style: TextStyle(fontSize: width * 0.045),
-                      ),
-                      subtitle: Text(reports[index]["reason"] ?? "No Description", style: TextStyle(fontSize: width * 0.035)),
+                    final report = reports[index];
+                    final userMap = userMappings[index];
+
+                    return GestureDetector(
                       onTap: () {
-                        _showActionDialog(context, reports[index]); // Show action dialog on tap
+                        _showActionDialog(
+                          context,
+                          report,
+                          userMap['reportedUsername']!,
+                          userMap['reporterUsername']!,
+                        );
                       },
+                      child: Container(
+                        margin: EdgeInsets.symmetric(vertical: 10),
+                        padding: EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          color: ClrConstant.primaryColor.withOpacity(0.1),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "${userMap['reportedUsername']} got reported",
+                              style: TextStyle(fontSize: width * 0.045, fontWeight: FontWeight.bold),
+                            ),
+                            SizedBox(height: 5),
+                            Text(
+                              "By ${userMap['reporterUsername']}",
+                              style: TextStyle(fontSize: width * 0.04, color: Colors.grey[700]),
+                            ),
+                            SizedBox(height: 5),
+                            Text(
+                              "Reason: ${report['reason'] ?? 'No reason provided'}",
+                              style: TextStyle(fontSize: width * 0.04),
+                            ),
+                          ],
+                        ),
+                      ),
                     );
-                  },
-                  separatorBuilder: (context, index) {
-                    return Divider(color: ClrConstant.primaryColor);
                   },
                 );
               },
             );
           },
-        ),
-      ),
-    );
-  }
-}
-
-// Detailed Report Page
-class ReportDetailPage extends StatelessWidget {
-  final Map<String, dynamic> report;
-
-  const ReportDetailPage
-      ({super.key, required this.report});
-
-  @override
-  Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width; // Get width
-    double height = MediaQuery.of(context).size.height; // Get height
-
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(report["title"]!),
-        backgroundColor: ClrConstant.primaryColor,
-      ),
-      body: Padding(
-        padding: EdgeInsets.all(width * 0.02),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              report["title"]!,
-              style: TextStyle(fontSize: width * 0.06, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: height * 0.02),
-            Text(
-              "Description: ${report["description"]!}",
-              style: TextStyle(fontSize: width * 0.045),
-            ),
-            SizedBox(height: height * 0.02),
-            Text(
-              "Date: ${report["date"]!}",
-              style: TextStyle(fontSize: width * 0.045),
-            ),
-            SizedBox(height: height * 0.02),
-            // You can add more details or actions related to the report here
-            Text(
-              "Additional Details:",
-              style: TextStyle(fontSize: width * 0.05, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: height * 0.01),
-            Text(
-              "This section can include charts, graphs, or any other relevant data related to the report.",
-              style: TextStyle(fontSize: width * 0.04),
-            ),
-            SizedBox(height: height * 0.02),
-            ElevatedButton(
-              onPressed: () {
-                // Logic to download or export the report
-                print("Download or export report");
-              },
-              style: ElevatedButton.styleFrom(
-                foregroundColor: ClrConstant.whiteColor,
-                backgroundColor: ClrConstant.primaryColor,
-              ),
-              child: Text("Download Report"),
-            ),
-          ],
         ),
       ),
     );
