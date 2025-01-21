@@ -41,48 +41,51 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyDs2X7sYwaGvjYVeTDvTaQUYZzWelIYKts',
-    appId: '1:423168411417:web:67f75402f4361034ede788',
-    messagingSenderId: '423168411417',
-    projectId: 'kalakaar-e2fa1',
-    authDomain: 'kalakaar-e2fa1.firebaseapp.com',
-    storageBucket: 'kalakaar-e2fa1.firebasestorage.app',
+    apiKey: 'AIzaSyB7AjDRndcWNas18ROPskStUjamz19HYlI',
+    appId: '1:1026070013724:web:27f31639a652f28281fcd9',
+    messagingSenderId: '1026070013724',
+    projectId: 'nativeartist-5bd60',
+    authDomain: 'nativeartist-5bd60.firebaseapp.com',
+    storageBucket: 'nativeartist-5bd60.appspot.com',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyANLm2tc2qdniBzYEpLNzNR-YLx0yWe1V0',
-    appId: '1:423168411417:android:ae478d51574891f1ede788',
-    messagingSenderId: '423168411417',
-    projectId: 'kalakaar-e2fa1',
-    storageBucket: 'kalakaar-e2fa1.firebasestorage.app',
+    apiKey: 'AIzaSyAULsT_igso6P7eZ3Iemxwm6eMXP_j29ko',
+    appId: '1:1026070013724:android:05d17d3f76e0999181fcd9',
+    messagingSenderId: '1026070013724',
+    projectId: 'nativeartist-5bd60',
+    storageBucket: 'nativeartist-5bd60.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyBNumn76zgDEhtyAyI9F1JrTrqrUePd06M',
-    appId: '1:423168411417:ios:49d969ff6de07dacede788',
-    messagingSenderId: '423168411417',
-    projectId: 'kalakaar-e2fa1',
-    storageBucket: 'kalakaar-e2fa1.firebasestorage.app',
-    iosClientId: '423168411417-eurgic04j74g63p0e3sq605j3v9frf93.apps.googleusercontent.com',
+    apiKey: 'AIzaSyAhWuwtZ5tfrLEdRdw5h6jY1Dyj716cwAk',
+    appId: '1:1026070013724:ios:c3236a751b540a3981fcd9',
+    messagingSenderId: '1026070013724',
+    projectId: 'nativeartist-5bd60',
+    storageBucket: 'nativeartist-5bd60.appspot.com',
+    androidClientId: '1026070013724-9bnpbsrgibl6dg77c2ie1u913ok3ku36.apps.googleusercontent.com',
+    iosClientId: '1026070013724-2vthtd65d3ks3vggru8e29ikpn6h2j37.apps.googleusercontent.com',
     iosBundleId: 'com.example.kalakaarAdmin',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyBNumn76zgDEhtyAyI9F1JrTrqrUePd06M',
-    appId: '1:423168411417:ios:49d969ff6de07dacede788',
-    messagingSenderId: '423168411417',
-    projectId: 'kalakaar-e2fa1',
-    storageBucket: 'kalakaar-e2fa1.firebasestorage.app',
-    iosClientId: '423168411417-eurgic04j74g63p0e3sq605j3v9frf93.apps.googleusercontent.com',
+    apiKey: 'AIzaSyAhWuwtZ5tfrLEdRdw5h6jY1Dyj716cwAk',
+    appId: '1:1026070013724:ios:c3236a751b540a3981fcd9',
+    messagingSenderId: '1026070013724',
+    projectId: 'nativeartist-5bd60',
+    storageBucket: 'nativeartist-5bd60.appspot.com',
+    androidClientId: '1026070013724-9bnpbsrgibl6dg77c2ie1u913ok3ku36.apps.googleusercontent.com',
+    iosClientId: '1026070013724-2vthtd65d3ks3vggru8e29ikpn6h2j37.apps.googleusercontent.com',
     iosBundleId: 'com.example.kalakaarAdmin',
   );
 
   static const FirebaseOptions windows = FirebaseOptions(
-    apiKey: 'AIzaSyDs2X7sYwaGvjYVeTDvTaQUYZzWelIYKts',
-    appId: '1:423168411417:web:8b599eff6e17b6fcede788',
-    messagingSenderId: '423168411417',
-    projectId: 'kalakaar-e2fa1',
-    authDomain: 'kalakaar-e2fa1.firebaseapp.com',
-    storageBucket: 'kalakaar-e2fa1.firebasestorage.app',
+    apiKey: 'AIzaSyDoONZ6j0Md6Lw1SOkQ7brpbmyiprGL4uY',
+    appId: '1:1026070013724:web:105e274131e0ddf781fcd9',
+    messagingSenderId: '1026070013724',
+    projectId: 'nativeartist-5bd60',
+    authDomain: 'nativeartist-5bd60.firebaseapp.com',
+    storageBucket: 'nativeartist-5bd60.appspot.com',
   );
+
 }

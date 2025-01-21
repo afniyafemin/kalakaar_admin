@@ -27,88 +27,79 @@ class _LoginState extends State<Login> {
         padding:  EdgeInsets.all(width*0.05),
         child: SingleChildScrollView(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              Container(
-                height: height*0.5,
-                width: width*1,
-                decoration: BoxDecoration(
-                  // color: ClrConstant.whiteColor.withOpacity(0.65),
-                  borderRadius: BorderRadius.circular(width*0.03)
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                   TextFormField(
-                     controller: emailController,
-                     decoration: InputDecoration(
-                       fillColor: ClrConstant.primaryColor,
-                       filled: true,
-                       label: Text("email",
-                         style: TextStyle(
-                           color: ClrConstant.whiteColor,
-                           fontWeight: FontWeight.w800,
-                         ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                 TextFormField(
+                   controller: emailController,
+                   decoration: InputDecoration(
+                     fillColor: ClrConstant.primaryColor,
+                     filled: true,
+                     label: Text("email",
+                       style: TextStyle(
+                         color: ClrConstant.whiteColor,
+                         fontWeight: FontWeight.w800,
                        ),
-                       enabledBorder: OutlineInputBorder(
-                           borderRadius: BorderRadius.circular(width*0.03),
-                           borderSide: BorderSide(
-                               color: ClrConstant.primaryColor,
-                               width: width*0.001
-                           )
-                       ),
-                       focusedBorder: OutlineInputBorder(
-                           borderRadius: BorderRadius.circular(width*0.03),
-                           borderSide: BorderSide(
-                               color: ClrConstant.primaryColor,
-                               width: width*0.001
-                           )
-                       ),
-                       suffixIcon: Icon(Icons.person,color: ClrConstant.whiteColor,)
                      ),
-                     cursorColor: ClrConstant.primaryColor,
-                   ),
-                   TextFormField(
-                     controller: passwordController,
-                     obscureText: pass?true:false,
-                     obscuringCharacter: "*",
-                     decoration: InputDecoration(
-                       focusColor: ClrConstant.whiteColor,
-                       filled: true,
-                       fillColor: ClrConstant.primaryColor,
-                       label: Text("Password",
-                         style: TextStyle(
-                           color: ClrConstant.whiteColor,
-                           fontWeight: FontWeight.w800,
-                         ),
-                       ),
-                       enabledBorder: OutlineInputBorder(
-                           borderRadius: BorderRadius.circular(width*0.03),
-                           borderSide: BorderSide(
-                               color: ClrConstant.primaryColor,
-                               width: width*0.001
-                           )
-                       ),
-                       focusedBorder: OutlineInputBorder(
-                           borderRadius: BorderRadius.circular(width*0.03),
-                           borderSide: BorderSide(
-                               color: ClrConstant.primaryColor,
-                               width: width*0.001
-                           )
-                       ),
-                       suffixIcon: InkWell(
-                         onTap: () {
-                           setState(() {
-                             pass=!pass;
-                           });
-                         },
-                           child: Icon(pass?Icons.visibility_off:Icons.visibility,color: ClrConstant.whiteColor,)
-                       )
+                     enabledBorder: OutlineInputBorder(
+                         borderRadius: BorderRadius.circular(width*0.03),
+                         borderSide: BorderSide(
+                             color: ClrConstant.primaryColor,
+                             width: width*0.001
+                         )
                      ),
-                     cursorColor: ClrConstant.primaryColor,
+                     focusedBorder: OutlineInputBorder(
+                         borderRadius: BorderRadius.circular(width*0.03),
+                         borderSide: BorderSide(
+                             color: ClrConstant.primaryColor,
+                             width: width*0.001
+                         )
+                     ),
+                     suffixIcon: Icon(Icons.person,color: ClrConstant.whiteColor,)
                    ),
-                  ],
-                ),
+                   cursorColor: ClrConstant.primaryColor,
+                 ),
+                 TextFormField(
+                   controller: passwordController,
+                   obscureText: pass?true:false,
+                   obscuringCharacter: "*",
+                   decoration: InputDecoration(
+                     focusColor: ClrConstant.whiteColor,
+                     filled: true,
+                     fillColor: ClrConstant.primaryColor,
+                     label: Text("Password",
+                       style: TextStyle(
+                         color: ClrConstant.whiteColor,
+                         fontWeight: FontWeight.w800,
+                       ),
+                     ),
+                     enabledBorder: OutlineInputBorder(
+                         borderRadius: BorderRadius.circular(width*0.03),
+                         borderSide: BorderSide(
+                             color: ClrConstant.primaryColor,
+                             width: width*0.001
+                         )
+                     ),
+                     focusedBorder: OutlineInputBorder(
+                         borderRadius: BorderRadius.circular(width*0.03),
+                         borderSide: BorderSide(
+                             color: ClrConstant.primaryColor,
+                             width: width*0.001
+                         )
+                     ),
+                     suffixIcon: InkWell(
+                       onTap: () {
+                         setState(() {
+                           pass=!pass;
+                         });
+                       },
+                         child: Icon(pass?Icons.visibility_off:Icons.visibility,color: ClrConstant.whiteColor,)
+                     )
+                   ),
+                   cursorColor: ClrConstant.primaryColor,
+                 ),
+                ],
               ),
               GestureDetector(
                   onTap: () async {

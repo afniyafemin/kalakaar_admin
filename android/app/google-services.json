@@ -1,40 +1,40 @@
 {
   "project_info": {
-    "project_number": "423168411417",
-    "project_id": "kalakaar-e2fa1",
-    "storage_bucket": "kalakaar-e2fa1.firebasestorage.app"
+    "project_number": "1026070013724",
+    "project_id": "nativeartist-5bd60",
+    "storage_bucket": "nativeartist-5bd60.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:423168411417:android:3a4047f60b35ccceede788",
+        "mobilesdk_app_id": "1:1026070013724:android:00b42f79b3c1053f81fcd9",
         "android_client_info": {
-          "package_name": "com.example.kala"
+          "package_name": "com.example.kala_copy"
         }
       },
       "oauth_client": [
         {
-          "client_id": "423168411417-mnikc60nnqhor0mv2vff4pimc9vb0j6l.apps.googleusercontent.com",
+          "client_id": "1026070013724-gu6nc0sbol27vp4hakij18j0di5675ss.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyANLm2tc2qdniBzYEpLNzNR-YLx0yWe1V0"
+          "current_key": "AIzaSyAULsT_igso6P7eZ3Iemxwm6eMXP_j29ko"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "423168411417-mnikc60nnqhor0mv2vff4pimc9vb0j6l.apps.googleusercontent.com",
+              "client_id": "1026070013724-gu6nc0sbol27vp4hakij18j0di5675ss.apps.googleusercontent.com",
               "client_type": 3
             },
             {
-              "client_id": "423168411417-uk926p5l88c6ah2pv27b2udi7109cu6k.apps.googleusercontent.com",
+              "client_id": "1026070013724-23bfqhlmkfr7t95ijg2ic8urm2c1cjoi.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.example.kala"
+                "bundle_id": "com.example.kalaCopy"
               }
             }
           ]
@@ -43,34 +43,78 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:423168411417:android:ae478d51574891f1ede788",
+        "mobilesdk_app_id": "1:1026070013724:android:05d17d3f76e0999181fcd9",
         "android_client_info": {
           "package_name": "com.example.kalakaar_admin"
         }
       },
       "oauth_client": [
         {
-          "client_id": "423168411417-mnikc60nnqhor0mv2vff4pimc9vb0j6l.apps.googleusercontent.com",
+          "client_id": "1026070013724-gu6nc0sbol27vp4hakij18j0di5675ss.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyANLm2tc2qdniBzYEpLNzNR-YLx0yWe1V0"
+          "current_key": "AIzaSyAULsT_igso6P7eZ3Iemxwm6eMXP_j29ko"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "423168411417-mnikc60nnqhor0mv2vff4pimc9vb0j6l.apps.googleusercontent.com",
+              "client_id": "1026070013724-gu6nc0sbol27vp4hakij18j0di5675ss.apps.googleusercontent.com",
               "client_type": 3
             },
             {
-              "client_id": "423168411417-uk926p5l88c6ah2pv27b2udi7109cu6k.apps.googleusercontent.com",
+              "client_id": "1026070013724-23bfqhlmkfr7t95ijg2ic8urm2c1cjoi.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.example.kala"
+                "bundle_id": "com.example.kalaCopy"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1026070013724:android:251a5f330d74584881fcd9",
+        "android_client_info": {
+          "package_name": "com.example.native_artist"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1026070013724-9bnpbsrgibl6dg77c2ie1u913ok3ku36.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.native_artist",
+            "certificate_hash": "7ca7a266700d6cc0213133f585f20b3074d1e5f1"
+          }
+        },
+        {
+          "client_id": "1026070013724-gu6nc0sbol27vp4hakij18j0di5675ss.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAULsT_igso6P7eZ3Iemxwm6eMXP_j29ko"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1026070013724-gu6nc0sbol27vp4hakij18j0di5675ss.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1026070013724-23bfqhlmkfr7t95ijg2ic8urm2c1cjoi.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.kalaCopy"
               }
             }
           ]
