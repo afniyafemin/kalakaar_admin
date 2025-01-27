@@ -90,6 +90,7 @@ class _HomepageState extends State<Homepage> {
         child: isLoading
             ? const Center(child: CircularProgressIndicator())
             : Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Container(
               height: height * 0.2,
@@ -145,109 +146,139 @@ class _HomepageState extends State<Homepage> {
                 ],
               ),
             ),
-            SizedBox(height: height * 0.02),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+            Column(
               children: [
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    foregroundColor: ClrConstant.primaryColor,
-                    backgroundColor: Colors.white,
-                    side: BorderSide(color: ClrConstant.primaryColor),
-                  ),
-                  onPressed: () {
+                GestureDetector(
+                  onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => const Users()),
+                      MaterialPageRoute(builder: (context) =>  Users()),
                     );
                   },
-                  child: const Text("Manage Users"),
-                ),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    foregroundColor: ClrConstant.primaryColor,
-                    backgroundColor: Colors.white,
-                    side: BorderSide(color: ClrConstant.primaryColor),
+                  child: Container(
+                    height: height*0.15,
+                      width: width*0.75,
+                      decoration: BoxDecoration(
+                        color: ClrConstant.primaryColor.withOpacity(0.8),
+                        borderRadius: BorderRadius.circular(width*0.05),
+                        border: Border.all(
+                          color: ClrConstant.primaryColor,
+                          width: width*0.01
+                        )
+                      ),
+                      child: Center(child: Text("Manage Users",
+                        style: TextStyle(
+                          color: ClrConstant.whiteColor,
+                          fontWeight: FontWeight.w800,
+                          fontSize: width*0.04
+                        ),
+                      ))
                   ),
-                  onPressed: () {
+                ),
+                SizedBox(height: height*0.03,),
+                GestureDetector(
+                  onTap: () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => const EventsPage()),
                     );
                   },
-                  child: const Text("Manage Events"),
+                  child: Container(
+                      height: height*0.15,
+                      width: width*0.75,
+                      decoration: BoxDecoration(
+                          color: ClrConstant.primaryColor.withOpacity(0.8),
+                          borderRadius: BorderRadius.circular(width*0.05),
+                          border: Border.all(
+                              color: ClrConstant.primaryColor,
+                              width: width*0.01
+                          )
+                      ),
+                      child: Center(child: Text("Manage Events",
+                        style: TextStyle(
+                            color: ClrConstant.whiteColor,
+                            fontWeight: FontWeight.w800,
+                            fontSize: width*0.04
+                        ),
+                      ))
+                  ),
                 ),
               ],
             ),
-            SizedBox(height: height * 0.02),
-            Expanded(
-              child: Container(
-                padding: EdgeInsets.all(width * 0.05),
-                decoration: BoxDecoration(
-                  border: Border.all(color: ClrConstant.primaryColor, width: 2),
-                  borderRadius: BorderRadius.circular(8),
-                  color: Colors.white,
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Notifications",
-                      style: TextStyle(
-                        color: ClrConstant.primaryColor,
-                        fontSize: width * 0.05,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Expanded(
-                      child: StreamBuilder<QuerySnapshot>(
-                        stream: FirebaseFirestore.instance
-                            .collection('notifications')
-                            .orderBy('timestamp', descending: true)
-                            .snapshots(),
-                        builder: (context, snapshot) {
-                          if (!snapshot.hasData) {
-                            return const Center(child: CircularProgressIndicator());
-                          }
+            SizedBox(height: height*0.05,)
 
-                          final notifications = snapshot.data!.docs;
 
-                          return ListView.builder(
-                            itemCount: notifications.length,
-                            itemBuilder: (context, index) {
-                              final notification = notifications[index];
-                              final message = notification['message'];
-                              final notificationId = notification.id;
+            // SizedBox(height: height * 0.02),
+            // Expanded(
+            //   child: Container(
+            //     padding: EdgeInsets.all(width * 0.05),
+            //     decoration: BoxDecoration(
+            //       border: Border.all(color: ClrConstant.primaryColor, width: 2),
+            //       borderRadius: BorderRadius.circular(8),
+            //       color: Colors.white,
+            //     ),
+            //     child: Column(
+            //       crossAxisAlignment: CrossAxisAlignment.start,
+            //       children: [
+            //         Text(
+            //           "Notifications",
+            //           style: TextStyle(
+            //             color: ClrConstant.primaryColor,
+            //             fontSize: width * 0.05,
+            //             fontWeight: FontWeight.bold,
+            //           ),
+            //         ),
+            //         Expanded(
+            //           child: StreamBuilder<QuerySnapshot>(
+            //             stream: FirebaseFirestore.instance
+            //                 .collection('notifications')
+            //                 .orderBy('timestamp', descending: true)
+            //                 .snapshots(),
+            //             builder: (context, snapshot) {
+            //               if (!snapshot.hasData) {
+            //                 return const Center(child: CircularProgressIndicator());
+            //               }
+            //
+            //               final notifications = snapshot.data!.docs;
+            //
+            //               return ListView.builder(
+            //                 itemCount: notifications.length,
+            //                 itemBuilder: (context, index) {
+            //                   final notification = notifications[index];
+            //                   final message = notification['message'];
+            //                   final notificationId = notification.id;
+            //
+            //                   return Dismissible(
+            //                     key: Key(notificationId),
+            //                     onDismissed: (direction) {
+            //                       FirebaseFirestore.instance
+            //                           .collection('notifications')
+            //                           .doc(notificationId)
+            //                           .delete();
+            //
+            //                       ScaffoldMessenger.of(context).showSnackBar(
+            //                         const SnackBar(
+            //                             content: Text("Notification dismissed")),
+            //                       );
+            //                     },
+            //                     background: Container(color: ClrConstant.primaryColor),
+            //                     child: ListTile(
+            //                       leading: Icon(Icons.person_add,
+            //                           color: ClrConstant.primaryColor),
+            //                       title: Text(message),
+            //                     ),
+            //                   );
+            //                 },
+            //               );
+            //             },
+            //           ),
+            //         ),
+            //       ],
+            //     ),
+            //   ),
+            // ),
 
-                              return Dismissible(
-                                key: Key(notificationId),
-                                onDismissed: (direction) {
-                                  FirebaseFirestore.instance
-                                      .collection('notifications')
-                                      .doc(notificationId)
-                                      .delete();
 
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                        content: Text("Notification dismissed")),
-                                  );
-                                },
-                                background: Container(color: ClrConstant.primaryColor),
-                                child: ListTile(
-                                  leading: Icon(Icons.person_add,
-                                      color: ClrConstant.primaryColor),
-                                  title: Text(message),
-                                ),
-                              );
-                            },
-                          );
-                        },
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
           ],
         ),
       ),

@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:kalakaar_admin/constants/color_constant.dart';
+import 'package:kalakaar_admin/home/screens/user_profile.dart';
 import 'package:kalakaar_admin/home/screens/users.dart';
 import '../../main.dart';
 import '../../services/fetch_data.dart';
@@ -77,7 +78,7 @@ class _UsersListState extends State<UsersList> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => UserEventsPage(
+                                builder: (context) => UserProfile(
                                     username: users[index]['username']),
                               ),
                             );

@@ -27,80 +27,80 @@ class _LoginState extends State<Login> {
         padding:  EdgeInsets.all(width*0.05),
         child: SingleChildScrollView(
           child: Column(
+           // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                 TextFormField(
-                   controller: emailController,
-                   decoration: InputDecoration(
-                     fillColor: ClrConstant.primaryColor,
-                     filled: true,
-                     label: Text("email",
-                       style: TextStyle(
-                         color: ClrConstant.whiteColor,
-                         fontWeight: FontWeight.w800,
-                       ),
-                     ),
-                     enabledBorder: OutlineInputBorder(
-                         borderRadius: BorderRadius.circular(width*0.03),
-                         borderSide: BorderSide(
-                             color: ClrConstant.primaryColor,
-                             width: width*0.001
-                         )
-                     ),
-                     focusedBorder: OutlineInputBorder(
-                         borderRadius: BorderRadius.circular(width*0.03),
-                         borderSide: BorderSide(
-                             color: ClrConstant.primaryColor,
-                             width: width*0.001
-                         )
-                     ),
-                     suffixIcon: Icon(Icons.person,color: ClrConstant.whiteColor,)
-                   ),
-                   cursorColor: ClrConstant.primaryColor,
-                 ),
-                 TextFormField(
-                   controller: passwordController,
-                   obscureText: pass?true:false,
-                   obscuringCharacter: "*",
-                   decoration: InputDecoration(
-                     focusColor: ClrConstant.whiteColor,
-                     filled: true,
-                     fillColor: ClrConstant.primaryColor,
-                     label: Text("Password",
-                       style: TextStyle(
-                         color: ClrConstant.whiteColor,
-                         fontWeight: FontWeight.w800,
-                       ),
-                     ),
-                     enabledBorder: OutlineInputBorder(
-                         borderRadius: BorderRadius.circular(width*0.03),
-                         borderSide: BorderSide(
-                             color: ClrConstant.primaryColor,
-                             width: width*0.001
-                         )
-                     ),
-                     focusedBorder: OutlineInputBorder(
-                         borderRadius: BorderRadius.circular(width*0.03),
-                         borderSide: BorderSide(
-                             color: ClrConstant.primaryColor,
-                             width: width*0.001
-                         )
-                     ),
-                     suffixIcon: InkWell(
-                       onTap: () {
-                         setState(() {
-                           pass=!pass;
-                         });
-                       },
-                         child: Icon(pass?Icons.visibility_off:Icons.visibility,color: ClrConstant.whiteColor,)
-                     )
-                   ),
-                   cursorColor: ClrConstant.primaryColor,
-                 ),
-                ],
+              SizedBox(height: height*0.1,),
+              TextFormField(
+                controller: emailController,
+                keyboardType: TextInputType.emailAddress,
+                decoration: InputDecoration(
+                  fillColor: ClrConstant.primaryColor,
+                  filled: true,
+                  label: Text("email",
+                    style: TextStyle(
+                      color: ClrConstant.whiteColor,
+                      fontWeight: FontWeight.w800,
+                    ),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(width*0.03),
+                      borderSide: BorderSide(
+                          color: ClrConstant.primaryColor,
+                          width: width*0.001
+                      )
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(width*0.03),
+                      borderSide: BorderSide(
+                          color: ClrConstant.primaryColor,
+                          width: width*0.001
+                      )
+                  ),
+                  suffixIcon: Icon(Icons.person,color: ClrConstant.whiteColor,)
+                ),
+                cursorColor: ClrConstant.primaryColor,
               ),
+              SizedBox(height: height*0.05,),
+              TextFormField(
+                controller: passwordController,
+                obscureText: pass?true:false,
+                obscuringCharacter: "*",
+                decoration: InputDecoration(
+                  focusColor: ClrConstant.whiteColor,
+                  filled: true,
+                  fillColor: ClrConstant.primaryColor,
+                  label: Text("Password",
+                    style: TextStyle(
+                      color: ClrConstant.whiteColor,
+                      fontWeight: FontWeight.w800,
+                    ),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(width*0.03),
+                      borderSide: BorderSide(
+                          color: ClrConstant.primaryColor,
+                          width: width*0.001
+                      )
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(width*0.03),
+                      borderSide: BorderSide(
+                          color: ClrConstant.primaryColor,
+                          width: width*0.001
+                      )
+                  ),
+                  suffixIcon: InkWell(
+                    onTap: () {
+                      setState(() {
+                        pass=!pass;
+                      });
+                    },
+                      child: Icon(pass?Icons.visibility_off:Icons.visibility,color: ClrConstant.whiteColor,)
+                  )
+                ),
+                cursorColor: ClrConstant.primaryColor,
+              ),
+              SizedBox(height: height*0.3,),
               GestureDetector(
                   onTap: () async {
                     if (emailController.text == "kalakaaradmin@gmail.com" && passwordController.text == "adminkalakaaradmin") {
@@ -113,8 +113,8 @@ class _LoginState extends State<Login> {
                     }
                   },
                 child: Container(
-                  height: height*0.075,
-                  width: width*0.2,
+                  height: height*0.06,
+                  width: width*0.35,
                   decoration: BoxDecoration(
                     color: ClrConstant.primaryColor,
                     borderRadius: BorderRadius.circular(width*0.05)

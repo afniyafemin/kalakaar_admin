@@ -11,46 +11,30 @@ class EventsPage extends StatefulWidget {
   State<EventsPage> createState() => _EventsPageState();
 }
 
-var click = true;
-
 class _EventsPageState extends State<EventsPage> {
-  List<Map<String, dynamic>> events = [];
-
-  @override
-  void initState() {
-    super.initState();
-    _fetchEvents();
-  }
-
-  Future<void> _fetchEvents() async {
+  Future<List<Map<String, dynamic>>> _fetchEvents() async {
     try {
-      final querySnapshot = await FirebaseFirestore.instance.collection('events').get();
-      setState(() {
-        events = querySnapshot.docs.map((doc) {
-          final data = doc.data() as Map<String, dynamic>;
-          data['documentId'] = doc.id; // Add the document ID to the data
-          return data;
-        }).toList();
-      });
+      QuerySnapshot snapshot = await FirebaseFirestore.instance.collection('events').get();
+      return snapshot.docs.map((doc) {
+        Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+        data['documentId'] = doc.id; // Include document ID
+        return data;
+      }).toList();
     } catch (e) {
-      print('Error fetching events: $e');
+      debugPrint("Error fetching events: $e");
+      return []; // Return an empty list on error
     }
   }
 
-  Future<void> _deleteEvent(int index) async {
+  Future<void> _deleteEvent(String documentId) async {
     try {
-      String documentId = events[index]['documentId'];
-
       await FirebaseFirestore.instance.collection('events').doc(documentId).delete();
-      setState(() {
-        events.removeAt(index);
-      });
     } catch (e) {
       print('Error deleting event: $e');
     }
   }
 
-  void _showDeleteConfirmation(int index) {
+  void _showDeleteConfirmation(String documentId) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -63,19 +47,15 @@ class _EventsPageState extends State<EventsPage> {
               onPressed: () {
                 Navigator.of(context).pop(); // Dismiss the dialog
               },
-              child: Text("Cancel",style: TextStyle(
-                color: ClrConstant.primaryColor
-              ),),
+              child: Text("Cancel", style: TextStyle(color: ClrConstant.primaryColor)),
             ),
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop(); // Dismiss the dialog
-                _deleteEvent(index); // Call delete function
+                _deleteEvent(documentId); // Call delete function
+                setState(() {}); // Refresh the UI
               },
-              child: Text(
-                "Remove",
-                style: TextStyle(color: Colors.red),
-              ),
+              child: Text("Remove", style: TextStyle(color: Colors.red)),
             ),
           ],
         );
@@ -97,82 +77,75 @@ class _EventsPageState extends State<EventsPage> {
         ),
         centerTitle: true,
       ),
-      body: Column(
-        children: [
-          Expanded(
-            child: ListView.separated(
-              itemCount: events.length,
-              itemBuilder: (BuildContext context, int index) {
-                final event = events[index];
-                String formattedDate;
-                if (event['date'] is Timestamp) {
-                  formattedDate = event['date'].toDate().toString();
-                } else {
-                  formattedDate = event['date'] ?? 'No Date';
-                }
-                return ListTile(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => EventDetails(
-                          title: event['title'] ?? 'No Title',
-                          description: event['description'] ?? 'No Description',
-                          date: formattedDate,
-                        ),
+      body: FutureBuilder<List<Map<String, dynamic>>>(
+        future: _fetchEvents(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          }
+          if (snapshot.hasError) {
+            return Center(child: Text("Error: ${snapshot.error}"));
+          }
+          if (!snapshot.hasData || snapshot.data!.isEmpty) {
+            return Center(child: Text("No events found."));
+          }
+
+          final events = snapshot.data!;
+
+          return ListView.separated(
+            itemCount: events.length,
+            itemBuilder: (BuildContext context, int index) {
+              final event = events[index];
+              String formattedDate;
+              if (event['date'] is Timestamp) {
+                formattedDate = event['date'].toDate().toString();
+              } else {
+                formattedDate = event['date'] ?? 'No Date';
+              }
+              return ListTile(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => EventDetails(
+                        title: event['title'] ?? 'No Title',
+                        description: event['description'] ?? 'No Description',
+                        date: formattedDate,
                       ),
-                    );
-                  },
-                  leading: CircleAvatar(
-                    radius: width * 0.05,
-                    backgroundColor: ClrConstant.primaryColor,
-                  ),
-                  title: Text(
-                    event['title'] ?? 'No Name',
-                    style: TextStyle(
-                      fontSize: width * 0.04,
-                      fontWeight: FontWeight.w600,
                     ),
+                  );
+                },
+                leading: CircleAvatar(
+                  radius: width*0.05, // Adjust the radius as needed
+                  backgroundColor: ClrConstant.primaryColor,
+                ),
+                title: Text(
+                  '''${event['title']}''' ?? 'No Name',
+                  style: TextStyle(
+                    fontSize: width*0.04, // Adjust the font size as needed
+                    fontWeight: FontWeight.w600,
                   ),
-                  subtitle: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        event['description'] ?? "No Description",
-                        style: TextStyle(
-                          fontSize: width * 0.03,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      Text(
-                        formattedDate,
-                        style: TextStyle(
-                          fontSize: width * 0.03,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ],
+                ),
+                subtitle: Text(
+                  formattedDate,
+                  style: TextStyle(
+                    fontSize: width*0.03, // Adjust the font size as needed
+                    fontWeight: FontWeight.w600,
                   ),
-                  trailing: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      InkWell(
-                        onTap: () {
-                          _showDeleteConfirmation(index); // Show confirmation dialog
-                        },
-                        child: Icon(Icons.cancel),
-                      ),
-                      SizedBox(width: width * 0.03),
-                    ],
-                  ),
-                );
-              },
-              separatorBuilder: (BuildContext context, int index) {
-                return SizedBox(height: height * 0.01);
-              },
-            ),
-          ),
-        ],
+                ),
+                trailing: IconButton(
+                  icon: Icon(Icons.cancel),
+                  onPressed: () {
+                    _showDeleteConfirmation(event['documentId']); // Show confirmation dialog
+                  },
+                ),
+              );
+            },
+            separatorBuilder: (BuildContext context, int index) {
+              return SizedBox(height: 10); // Adjust the spacing as needed
+            },
+          );
+        },
       ),
     );
   }
