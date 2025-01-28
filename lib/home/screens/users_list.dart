@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:kalakaar_admin/constants/color_constant.dart';
+import 'package:kalakaar_admin/constants/image_constant.dart';
 import 'package:kalakaar_admin/home/screens/user_profile.dart';
 import 'package:kalakaar_admin/home/screens/users.dart';
 import '../../main.dart';
@@ -79,7 +80,7 @@ class _UsersListState extends State<UsersList> {
                               context,
                               MaterialPageRoute(
                                 builder: (context) => UserProfile(
-                                    username: users[index]['username']),
+                                    uid: users[index]['uid']),
                               ),
                             );
                           },
@@ -91,7 +92,9 @@ class _UsersListState extends State<UsersList> {
                               child: CircleAvatar(
                                 radius: width * 0.05, // Adjust avatar size
                                 backgroundColor: ClrConstant.primaryColor,
-                                child: Icon(Icons.event),
+                                backgroundImage: users[index]['profileImageUrl'] != null
+                                    ? NetworkImage(users[index]['profileImageUrl'])
+                                    : AssetImage(ImgConstant.event1) as ImageProvider, // Default image if no URL
                               ),
                             ),
                             title: Text(users[index]["username"] ?? "Unknown User",

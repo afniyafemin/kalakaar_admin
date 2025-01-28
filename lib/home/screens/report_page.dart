@@ -9,6 +9,7 @@ class ReportPage extends StatefulWidget {
 }
 
 class _ReportPageState extends State<ReportPage> {
+
   Future<List<Map<String, dynamic>>> fetchReports() async {
     List<Map<String, dynamic>> reports = [];
     try {
@@ -96,73 +97,6 @@ class _ReportPageState extends State<ReportPage> {
     );
   }
 
-  void _showReportDialog(String userId) {
-    final TextEditingController reasonController = TextEditingController();
-
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: Text("Report User"),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              TextField(
-                controller: reasonController,
-                decoration: InputDecoration(
-                  labelText: "Reason for reporting",
-                  border: OutlineInputBorder(),
-                ),
-              ),
-            ],
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.of(context).pop(),
-              child: Text("Cancel"),
-            ),
-            TextButton(
-              onPressed: () async {
-                String reason = reasonController.text.trim();
-                if (reason.isNotEmpty) {
-                  await _submitReport(reason, userId);
-                  Navigator.of(context).pop();
-                } else {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text("Please provide a reason.")),
-                  );
-                }
-              },
-              child: Text("Report"),
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  Future<void> _submitReport(String reason, String reportedUserId) async {
-    final currentUser = FirebaseAuth.instance.currentUser;
-    if (currentUser != null) {
-      try {
-        await FirebaseFirestore.instance.collection('reports').add({
-          'reportedUser Id': reportedUserId,
-          'reporterUser Id': currentUser.uid,
-          'reason': reason,
-          'timestamp': FieldValue.serverTimestamp(),
-        });
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("Report submitted successfully.")),
-        );
-      } catch (e) {
-        print('Error submitting report: $e');
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("Error submitting report.")),
-        );
-      }
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -201,8 +135,8 @@ class _ReportPageState extends State<ReportPage> {
 
             return FutureBuilder<List<Map<String, String>>>(
               future: Future.wait(reports.map((report) async {
-                final reportedUser = await fetchUsername(report['reportedUser Id']);
-                final reporterUser = await fetchUsername(report['reporterUser Id']);
+                final reportedUser = await fetchUsername(report['reportedUserId']);
+                final reporterUser = await fetchUsername(report['reporterUserId']);
                 return {
                   'reportedUsername': reportedUser,
                   'reporterUsername': reporterUser,

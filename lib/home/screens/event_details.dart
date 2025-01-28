@@ -3,18 +3,53 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:kalakaar_admin/constants/image_constant.dart';
 import 'package:kalakaar_admin/main.dart';
 import '../../constants/color_constant.dart';
-
-class EventDetails extends StatelessWidget {
-  final String title;
-  final String description;
-  final String date;
+class EventDetails extends StatefulWidget {
+  final String eventId;
 
   const EventDetails({
     Key? key,
-    required this.title,
-    required this.description,
-    required this.date,
+    required this.eventId,
   }) : super(key: key);
+
+  @override
+  State<EventDetails> createState() => _EventDetailsState();
+}
+
+class _EventDetailsState extends State<EventDetails> {
+  String title = '';
+  String description = '';
+  String date = '';
+  String imageUrl = '';
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchEventDetails();
+  }
+
+  Future<void> _fetchEventDetails() async {
+    try {
+      DocumentSnapshot eventDoc = await FirebaseFirestore.instance
+          .collection('events')
+          .doc(widget.eventId)
+          .get();
+
+      if (eventDoc.exists) {
+        var data = eventDoc.data() as Map<String, dynamic>;
+        setState(() {
+          title = data['title'] ?? 'No Title';
+          description = data['description'] ?? 'No Description';
+          date = data['date'] ?? 'No date';
+          imageUrl = data['imageUrl'] ?? ImgConstant.event1; // Default image if no URL
+        });
+      } else {
+        print('Event document does not exist.');
+      }
+    } catch (e) {
+      print('Error fetching event details: $e');
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +81,10 @@ class EventDetails extends StatelessWidget {
                       spreadRadius: 2
                     )
                   ],
-                  image: DecorationImage(image: AssetImage(ImgConstant.event1),fit: BoxFit.cover)
+                  image: DecorationImage(
+                    image: NetworkImage(imageUrl), // Use the fetched image URL
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
             ),

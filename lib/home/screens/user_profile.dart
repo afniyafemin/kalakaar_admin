@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:kalakaar_admin/constants/color_constant.dart';
 import 'package:kalakaar_admin/constants/image_constant.dart';
@@ -5,14 +7,50 @@ import 'package:kalakaar_admin/constants/image_constant.dart';
 import '../../main.dart';
 
 class UserProfile extends StatefulWidget {
-  final String username;
-  const UserProfile({super.key, required this.username});
+
+  final String uid;
+  const UserProfile({super.key, required this.uid});
 
   @override
   State<UserProfile> createState() => _UserProfileState();
 }
 
 class _UserProfileState extends State<UserProfile> {
+  String? profileImageUrl;
+  int followersCount = 0;
+  String? username;
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchUserProfile();
+  }
+
+  Future<void> _fetchUserProfile() async {
+    try {
+      DocumentSnapshot userDoc =
+      await FirebaseFirestore.instance.collection('users').doc(widget.uid).get(); // Use widget.uid
+
+      if (userDoc.exists) {
+        var data = userDoc.data() as Map<String, dynamic>;
+        setState(() {
+          username=data['username'];
+          profileImageUrl = data['profileImageUrl']; // Fetch profile image URL
+          followersCount = (data['followers'] as List<dynamic>?)?.length ?? 0; // Count followers
+        });
+
+        // Print statements for debugging
+        print('Profile Image URL: $profileImageUrl');
+        print('Followers Count: $followersCount');
+      } else {
+        print('User  document does not exist.');
+      }
+    } catch (e) {
+      print('Error fetching user profile: $e');
+    }
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,8 +81,11 @@ class _UserProfileState extends State<UserProfile> {
                     CircleAvatar(
                       radius: width*0.175,
                       backgroundColor: ClrConstant.primaryColor,
+                      backgroundImage: profileImageUrl != null
+                          ? NetworkImage(profileImageUrl!)
+                          : AssetImage(ImgConstant.fav4) as ImageProvider, // Default image if no URL
                     ),
-                    Text(widget.username,
+                    Text(username!,
                       style: TextStyle(
                           color: ClrConstant.blackColor,
                           fontWeight: FontWeight.w700,
@@ -65,7 +106,7 @@ class _UserProfileState extends State<UserProfile> {
                       )
                   ),
                   child: Center(
-                    child: Text("n followers",
+                    child: Text(" $followersCount followers",
                       style: TextStyle(
                           color:ClrConstant.blackColor,
                           fontWeight: FontWeight.w700

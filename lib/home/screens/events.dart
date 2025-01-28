@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:kalakaar_admin/home/screens/event_details.dart';
 import '../../constants/color_constant.dart';
+import '../../constants/image_constant.dart';
 import '../../main.dart';
 
 class EventsPage extends StatefulWidget {
@@ -108,9 +109,7 @@ class _EventsPageState extends State<EventsPage> {
                     context,
                     MaterialPageRoute(
                       builder: (context) => EventDetails(
-                        title: event['title'] ?? 'No Title',
-                        description: event['description'] ?? 'No Description',
-                        date: formattedDate,
+                        eventId: event['eventId'] ?? 'N/A',
                       ),
                     ),
                   );
@@ -118,6 +117,9 @@ class _EventsPageState extends State<EventsPage> {
                 leading: CircleAvatar(
                   radius: width*0.05, // Adjust the radius as needed
                   backgroundColor: ClrConstant.primaryColor,
+                  backgroundImage: event['imageUrl'] != null
+                      ? NetworkImage(event['imageUrl'])
+                      : AssetImage(ImgConstant.event1) as ImageProvider,
                 ),
                 title: Text(
                   '''${event['title']}''' ?? 'No Name',
