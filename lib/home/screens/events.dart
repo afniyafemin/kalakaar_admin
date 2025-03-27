@@ -69,6 +69,7 @@ class _EventsPageState extends State<EventsPage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: ClrConstant.primaryColor,
+        iconTheme: IconThemeData(color: ClrConstant.whiteColor),
         title: Text(
           "Events",
           style: TextStyle(

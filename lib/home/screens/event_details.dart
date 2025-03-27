@@ -56,14 +56,18 @@ class _EventDetailsState extends State<EventDetails> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: ClrConstant.primaryColor,
+        iconTheme: IconThemeData(color: ClrConstant.whiteColor),
         title: Text(
           title,
-          style: TextStyle(color: ClrConstant.whiteColor),
+          style: TextStyle(
+              color: ClrConstant.whiteColor,
+            fontWeight: FontWeight.w900
+          ),
         ),
         centerTitle: true,
       ),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding:  EdgeInsets.all(width*0.03),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(height: height*0.01,),
@@ -95,38 +99,43 @@ class _EventDetailsState extends State<EventDetails> {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  title,
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                  ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      title,
+                      style: TextStyle(
+                        fontSize: width*0.06,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
                 ),
                 SizedBox(height: 16),
                 Text(
                   "Description:",
                   style: TextStyle(
-                    fontSize: 18,
+                    fontSize: width*0.045,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
                 SizedBox(height: 8),
                 Text(
                   description,
-                  style: TextStyle(fontSize: 16),
+                  style: TextStyle(fontSize: width*0.0325),
                 ),
                 SizedBox(height: 16),
                 Text(
                   "Date:",
                   style: TextStyle(
-                    fontSize: 18,
+                    fontSize: width*0.045,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
                 SizedBox(height: 8),
                 Text(
                   date,
-                  style: TextStyle(fontSize: 16),
+                  style: TextStyle(fontSize: width*0.035),
                 ),
               ],
             ),

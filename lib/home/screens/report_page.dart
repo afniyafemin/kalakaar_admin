@@ -128,7 +128,7 @@ class _ReportPageState extends State<ReportPage> {
             }
 
             if (!snapshot.hasData || snapshot.data!.isEmpty) {
-              return Center(child: Text('No reports available.'));
+              return Center(child: Text('No reports yet.'));
             }
 
             final reports = snapshot.data!;

@@ -77,10 +77,14 @@ class _HomepageState extends State<Homepage> {
               return const CircularProgressIndicator();
             } else if (snapshot.hasError) {
               return Text("Error: ${snapshot.error}");
-            } else if (snapshot.hasData) {
-              return const Text("Welcome");
-            } else {
-              return const Text("No admin data found");
+            }
+            else {
+              return Text("Welcome",
+                style: TextStyle(
+                  fontWeight: FontWeight.w900,
+                  color: ClrConstant.whiteColor
+                ),
+              );
             }
           },
         ),
@@ -105,7 +109,7 @@ class _HomepageState extends State<Homepage> {
                   Text(
                     "Overview",
                     style: TextStyle(
-                      color: ClrConstant.whiteColor,
+                      color: ClrConstant.blackColor,
                       fontSize: width * 0.05,
                       fontWeight: FontWeight.bold,
                     ),

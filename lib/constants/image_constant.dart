@@ -6,7 +6,7 @@ class ImgConstant{
   static const dance_category1="assets/images/dance_category1.jpg";
   static const dance_category2="assets/images/dance_category2.jpg";
   static const dance_category3="assets/images/dance_category3.jpg";
-  static const dancing="assets/images/dancing.jpg";
+  static const dancing="assets/images/dancing.png";
   static const event1="assets/images/event1.jpg";
   static const event2="assets/images/event2.jpg";
   static const fav1="assets/images/fav1.jpg";
@@ -25,4 +25,6 @@ class ImgConstant{
   static const star="assets/images/star.jpg";
   static const filter="assets/images/filter.jpg";
   static const login="assets/images/login.svg";
+  static const stry_telling="assets/images/malabar.png";
+  static const ritual="assets/images/ritual.jpg";
 }

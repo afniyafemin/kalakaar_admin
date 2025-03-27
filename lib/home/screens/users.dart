@@ -16,11 +16,24 @@ class Users extends StatefulWidget {
 }
 
 List<Map> category = [
-  {"img": ImgConstant.dancing, "txt": "Dancing"},
-  {"img": ImgConstant.instrumental_music, "txt": "Instrumental Music"},
-  {"img": ImgConstant.malabar, "txt": "Malabar Arts"},
-  {"img": ImgConstant.martial, "txt": "Martial and Ritual Arts"},
-  {"img": ImgConstant.western, "txt": "Western"},
+  {"img": ImgConstant.dancing,
+    "txt": "Dance Forms",
+  },
+  {"img": ImgConstant.instrumental_music,
+    "txt": "Instrumental Music",
+  },
+  {"img": ImgConstant.ritual,
+    "txt": "Ritual & Temple Arts",
+  },
+  {"img": ImgConstant.stry_telling,
+    "txt": "Theatre & Story Telling",
+  },
+  {"img": ImgConstant.martial,
+    "txt": "Martial Arts",
+  },
+  {"img": ImgConstant.western,
+    "txt": "Puppetry & Shadow Theatre",
+  },
 ];
 String category_='';
 
@@ -35,6 +48,7 @@ class _UsersState extends State<Users> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: ClrConstant.primaryColor,
+        iconTheme: IconThemeData(color: ClrConstant.whiteColor),
         title: Text("Users",
           style: TextStyle(
               color: ClrConstant.whiteColor,

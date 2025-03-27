@@ -80,7 +80,8 @@ class _UsersListState extends State<UsersList> {
                               context,
                               MaterialPageRoute(
                                 builder: (context) => UserProfile(
-                                    uid: users[index]['uid']),
+                                  userId: users[index]['id'],
+                                    username: users[index]['username']),
                               ),
                             );
                           },
@@ -91,10 +92,8 @@ class _UsersListState extends State<UsersList> {
                               },
                               child: CircleAvatar(
                                 radius: width * 0.05, // Adjust avatar size
-                                backgroundColor: ClrConstant.primaryColor,
-                                backgroundImage: users[index]['profileImageUrl'] != null
-                                    ? NetworkImage(users[index]['profileImageUrl'])
-                                    : AssetImage(ImgConstant.event1) as ImageProvider, // Default image if no URL
+                               backgroundColor: ClrConstant.primaryColor,
+                                child: Icon(Icons.verified_user),
                               ),
                             ),
                             title: Text(users[index]["username"] ?? "Unknown User",
